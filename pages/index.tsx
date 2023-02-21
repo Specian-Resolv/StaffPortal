@@ -1,8 +1,10 @@
 import * as React from 'react'
-
 import { NotionPage } from '@/components/NotionPage'
 import { domain } from '@/lib/config'
 import { resolveNotionPage } from '@/lib/resolve-notion-page'
+
+import { Provider as AuthProvider } from 'next-auth/client'
+import { providers } from '@/lib/auth'
 
 export const getStaticProps = async () => {
   try {
@@ -19,5 +21,9 @@ export const getStaticProps = async () => {
 }
 
 export default function NotionDomainPage(props) {
-  return <NotionPage {...props} />
+  return (
+    <AuthProvider session={props.session} providers={providers}>
+      <NotionPage {...props} />
+    </AuthProvider>
+  )
 }
